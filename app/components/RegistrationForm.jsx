@@ -3,17 +3,17 @@ import React from 'react'
 import SocialLogins from './SocialLogin'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { doCredentialLogin } from '../actions'
 
 export default function RegistrationForm() {
     const router = useRouter()
     async function handleSubmit(event){
         event.preventDefault()
-
+        const formData = new FormData(event.currentTarget)
+        const name = formData.get('name')
+        const email = formData.get('email')
+        const password = formData.get('password')
         try {
-            const formData = new FormData(event.currentTarget)
-            const name = formData.get('name')
-            const email = formData.get('email')
-            const password = formData.get('password')
             const response = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
@@ -25,9 +25,19 @@ export default function RegistrationForm() {
                     password
                 })
             })
-            response.status === 201 && router.push('/')
+            if (response.status != 201) return
+            try {           
+                const response = await doCredentialLogin(formData)
+                if (!!response.error) {
+                } else {
+                    router.push('/home')
+                }
+    
+            } catch (error) {
+                console.log(error.message)
+            }
         } catch (e) {
-            
+            console.log(e)
         }
 
     }
