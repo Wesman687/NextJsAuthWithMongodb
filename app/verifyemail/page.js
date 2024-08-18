@@ -2,10 +2,8 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { auth } from "../auth";
 
 export default async function page() {
-  const session = await auth();
   const [token, setToken] = useState();
   const [verified, setVerified] = useState();
   useEffect(() => {
