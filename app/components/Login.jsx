@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import SocialLogin from './SocialLogin'
 import { doCredentialLogin } from '../actions'
 import  { useRouter } from 'next/navigation'
-
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -14,11 +13,13 @@ export default function Login() {
         const formData = new FormData()
         formData.append("email", email)
         formData.append('password', password)
+        if (email && password) {
         try {           
             const response = await doCredentialLogin(formData)
             if (!!response.error) {
                 setError(response.error.message)
-            } else {
+            } else {          
+                console.log("Problem here?")      
                 router.push('/home')
             }
 
@@ -26,6 +27,10 @@ export default function Login() {
             console.log(error.message)
             setError("Check your Credentials")
         }
+    }
+    else {
+        setError("Check your Credentials")
+    }
     }
   return (
     <>

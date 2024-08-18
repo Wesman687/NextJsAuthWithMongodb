@@ -5,6 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { User } from './model/user-model'
 
+
 export const {
     handlers: { GET, POST },
     auth,
@@ -22,6 +23,7 @@ export const {
                     const user = await User.findOne({
                         email: credentials?.email
                     })
+                    
                     if (user){
                         const isMatch = await bcrypt.compare(
                             credentials.password,
@@ -29,7 +31,8 @@ export const {
                         )
                         if (isMatch){
                             return user
-                        } else {
+                        } 
+                        else {
                             throw new Error("Check your password")
                         }
                         

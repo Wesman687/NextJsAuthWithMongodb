@@ -13,6 +13,7 @@ export default function RegistrationForm() {
         const name = formData.get('name')
         const email = formData.get('email')
         const password = formData.get('password')
+        if (name && email && password) {
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
@@ -26,20 +27,14 @@ export default function RegistrationForm() {
                 })
             })
             if (response.status != 201) return
-            try {           
-                const response = await doCredentialLogin(formData)
-                if (!!response.error) {
-                } else {
-                    router.push('/home')
-                }
-    
-            } catch (error) {
-                console.log(error.message)
+            else {
+                router.push('/verifyemail')
             }
+            
         } catch (e) {
             console.log(e)
         }
-
+    }
     }
   return (
     <>

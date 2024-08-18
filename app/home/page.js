@@ -8,6 +8,7 @@ const HomePage = async () => {
   const session = await auth();
 
   if (!session) redirect("/");
+
   return (
     <div className="bg-blue-900 w-screen h-screen flex items-center font-bold">
       <div className="text-center w-full flex items-center flex-col">
